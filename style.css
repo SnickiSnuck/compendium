@@ -2,7 +2,6 @@
   margin: 0;
   padding: 0;
   font-family: Inter;
-  text-shadow: var(--text-shadow);
   scroll-margin: 7rem;
   scroll-behavior: smooth;
   color: var(--text);
@@ -43,34 +42,36 @@ body{
   flex-direction: column;
   align-items: center;
   background: var(--body-bg);
+  height: 100vh;
 }
 
 button{
   color: white;
-  text-shadow: var(--text-shadow);
   background: linear-gradient(var(--secondary), var(--primary));
   padding: 1rem;
   font-size: 1rem;
   border-radius: .8rem;
   border: 1px solid var(--secondary);
   cursor: pointer;
-  transition: all 150ms, scale 100ms,;
+  transition: all 100ms, scale 100ms;
   box-shadow: 0px 1px 1px var(--tertiary) inset, 0 -1px 1px var(--tertiary) inset, 1px 0px 1px var(--tertiary) inset, -1px 0px 1px var(--tertiary) inset;
   user-select: none;
 }
+
+/* button:hover befindet sich unten im @media */
 
 ul {
   width: fit-content;
   margin-left: auto;
   margin-right: auto;
   text-align: left;
+  list-style-position: inside;
 }
 
 nav{
-  z-index: 1000;
+  position: fixed;
   top: 1rem;
-  margin-bottom: 2rem;
-  position: sticky;
+  z-index: 1000;
   display: flex;
   padding: .2rem;
   background: var(--glass-bg);
@@ -84,13 +85,14 @@ nav{
 nav ul{
   list-style-type: none;
   display: flex;
+  align-items: center;
   gap: .2rem;
 }
 
 nav ul li a{
   display: flex;
   padding: 1rem;
-  color: black;
+  color: var(--header);
   text-decoration: none;
   transition: all 50ms;
   border: 1px solid transparent;
@@ -99,13 +101,12 @@ nav ul li a{
 nav ul li a:hover{
   background: var(--hover-bg);
   border-radius: 9999px;
-  color: black;
+  color: var(--header);
   text-decoration: none;
 }
 
 .nav-active{
   color: white;
-  text-shadow: var(--text-shadow);
   background: linear-gradient(var(--secondary), var(--primary));
   padding: 1rem;
   font-size: 1rem;
@@ -149,9 +150,9 @@ tr:nth-child(even){
 }
 
 .content-column{
+  margin-top: 6rem;
   width: min(calc(100% - 0rem), 55rem);
   display: flex;
-  flex-wrap: wrap;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -166,6 +167,7 @@ tr:nth-child(even){
   background: var(--bg);
   border: var(--border);
   border-radius: 1rem;
+  flex: 1;
 }
 
 .button-container{
@@ -194,26 +196,79 @@ table button{
   scale: 1;
 }
 
+.scroll-button{
+  scale: 0;
+  opacity: 0;
+  transition: all 300ms, opacity 50ms;
+}
+.visible{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+  opacity: .33;
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 100%;
+  scale: 1;
+  transition: all 300ms, opacity 50ms;
+}
+
+footer{
+  border-top: var(--border);
+  background: var(--bg);
+  width: calc(100% - 1rem);
+  text-align: center;
+  padding: .5rem;
+  margin-top: auto;
+}
+
 @media (hover: hover){
   button:hover{
-    filter: brightness(1.2);
+    opacity: 1;
   }
 }
 
-@keyframes blurIn {
-  0%{
-    scale: 0.5;
-    opacity: 0;
-    filter: blur(5px);
+@media (prefers-color-scheme: dark){
+  :root{
+    --header: white;
+    --text: rgb(230, 230, 230);
+    --glass-bg: rgba(0, 0, 0, .3);
+    --bg: rgba(15, 15, 25);
+    --bg-darker: rgba(10, 10, 20);
+    --body-bg: rgba(0, 0, 5);
+    --border: 1px solid rgb(50, 50, 60);
+    --border-shadow: 0 0 .5rem rgb(50, 50, 60) inset;
+    --hover-bg: rgba(255, 255, 255, 0.1);
+    --shadow: 0 2.5px 5px rgba(0, 0, 0, .2);
+    --text-shadow: none;
   }
-  50%{
-    scale: 1;
+  a{
+    color: var(--secondary);
+  }
+  a:hover{
+    color: var(--tertiary);
+  }
+}
+
+@keyframes popIn {
+  0%{
+    scale: .8 .8;
+    opacity: 0;
+    filter: blur(10px);
+  }
+  25%{
+    scale: 1.1;
     opacity: 1;
     filter: blur(0px);
   }
   100%{
     scale: 1;
-    opacity: .5;
+    opacity: 1;
     filter: blur(0px);
   }
 }
